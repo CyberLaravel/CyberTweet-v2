@@ -36,6 +36,15 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
+            
+            // New social columns
+            'username' => fake()->unique()->userName(),
+            'bio' => fake()->optional()->paragraph(),
+            'location' => fake()->optional()->city(),
+            'website' => fake()->optional()->url(),
+            'birth_date' => fake()->optional()->dateTimeBetween('-50 years', '-18 years'),
+            'followers_count' => fake()->numberBetween(0, 1000),
+            'following_count' => fake()->numberBetween(0, 500),
         ];
     }
 
@@ -68,5 +77,19 @@ class UserFactory extends Factory
                 ->when(is_callable($callback), $callback),
             'ownedTeams'
         );
+    }
+
+    // Optional: Add a method to create a user with specific social details
+    public function withSocialDetails(array $socialDetails = []): static
+    {
+        return $this->state(function (array $attributes) use ($socialDetails) {
+            return array_merge([
+                'username' => $socialDetails['username'] ?? fake()->unique()->userName(),
+                'bio' => $socialDetails['bio'] ?? fake()->optional()->paragraph(),
+                'location' => $socialDetails['location'] ?? fake()->optional()->city(),
+                'website' => $socialDetails['website'] ?? fake()->optional()->url(),
+                'birth_date' => $socialDetails['birth_date'] ?? fake()->optional()->dateTimeBetween('-50 years', '-18 years'),
+            ], $attributes);
+        });
     }
 }

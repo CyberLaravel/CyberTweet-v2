@@ -96,10 +96,10 @@ const submit = () => {
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="flex items-center justify-between pt-4">
+                    <div class="flex flex-col sm:flex-row items-center justify-between pt-4 space-y-4 sm:space-y-0 sm:space-x-4">
                         <Link
                             :href="route('password.request')"
-                            class="text-cyan-400 text-sm hover:text-pink-400 transition-colors duration-300 font-mono relative group"
+                            class="w-full sm:w-auto text-center text-cyan-400 text-sm hover:text-pink-400 transition-colors duration-300 font-mono relative group"
                         >
                             <span class="relative z-10">NEURAL.KEY.RESET</span>
                             <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-pink-500 transition-all duration-300 group-hover:w-full"></span>
@@ -108,7 +108,7 @@ const submit = () => {
                         <button
                             type="submit"
                             :disabled="form.processing"
-                            class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold rounded-sm hover:from-pink-500 hover:to-purple-500 transition-all duration-500 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold rounded-sm hover:from-pink-500 hover:to-purple-500 transition-all duration-500 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <span class="relative z-10">INITIALIZE ACCESS</span>
                             <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 transition-transform duration-500 transform translate-x-full group-hover:translate-x-0"></div>

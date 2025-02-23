@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const form = useForm({
     name: '',
@@ -9,6 +10,17 @@ const form = useForm({
     terms: false,
 });
 
+const passwordVisible = ref(false);
+const confirmPasswordVisible = ref(false);
+
+const togglePasswordVisibility = (type) => {
+    if (type === 'password') {
+        passwordVisible.value = !passwordVisible.value;
+    } else {
+        confirmPasswordVisible.value = !confirmPasswordVisible.value;
+    }
+};
+
 const submit = () => {
     form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
@@ -17,195 +29,167 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Register" />
+    <Head title="Cyber Registration" />
 
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-black relative overflow-hidden cyberpunk-scene">
-        <!-- Holographic Grid -->
-        <div class="absolute inset-0 bg-[length:40px_40px] bg-grid-neon opacity-20 animate-grid-move"></div>
+    <div class="min-h-screen bg-[#0a0a1a] flex items-center justify-center p-4 overflow-hidden relative">
+        <!-- Neon Grid Background -->
+        <div class="absolute inset-0 bg-grid-neon opacity-10 pointer-events-none"></div>
         
-        <!-- Core Energy Pulse -->
-        <div class="absolute w-[600px] h-[600px] bg-gradient-to-r from-cyan-500/20 to-pink-500/20 rounded-full blur-[150px] animate-energy-pulse"></div>
+        <!-- Glowing Accent Shapes -->
+        <div class="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-cyan-500/20 rounded-full blur-[200px] animate-pulse"></div>
+        <div class="absolute -bottom-1/4 -left-1/4 w-[500px] h-[500px] bg-pink-500/20 rounded-full blur-[200px] animate-pulse delay-500"></div>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-8 bg-black/90 backdrop-blur-xl border-2 border-cyan-500/50 shadow-cyberpunk relative z-10 neon-panel">
-            <!-- Animated Header -->
-            <div class="text-center mb-8 holographic-header">
-                <h1 class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-400 animate-text-glitch">
-                    SYSTEM ACCESS
+        <!-- Registration Container -->
+        <div class="relative z-10 w-full max-w-md bg-[#0f1229] border-2 border-cyan-500/30 rounded-xl shadow-2xl shadow-cyan-500/20 p-8">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-pink-400 mb-2">
+                    SYSTEM INFILTRATION
                 </h1>
-                <div class="h-1 mt-2 bg-gradient-to-r from-cyan-500 to-pink-500 animate-line-glow"></div>
-                <div class="text-sm text-cyan-400 mt-2 font-mono">REGISTRATION PROTOCOL v2.3.5</div>
+                <p class="text-xs text-cyan-300 tracking-widest uppercase">New Operative Registration</p>
+                <div class="h-0.5 bg-gradient-to-r from-cyan-500 to-pink-500 mt-2 mx-auto w-1/2"></div>
             </div>
 
             <form @submit.prevent="submit" class="space-y-6">
-                <!-- Name Input -->
-                <div class="cyber-input-group">
-                    <label class="cyber-label">OPERATIVE ID</label>
-                    <div class="cyber-input-container">
-                        <input 
-                            type="text" 
-                            v-model="form.name"
-                            required
-                            autofocus
-                            autocomplete="name"
-                            class="cyber-input"
-                            placeholder="CYBER-AGENT-01"
-                        />
-                        <div class="cyber-input-decoration"></div>
+                <!-- Operative ID -->
+                <div class="relative">
+                    <label class="block text-sm text-cyan-300 mb-2">OPERATIVE IDENTIFIER</label>
+                    <input 
+                        type="text" 
+                        v-model="form.name"
+                        required
+                        autofocus
+                        class="w-full bg-[#1a1e3a] border-2 border-cyan-500/30 text-cyan-100 rounded-lg py-3 px-4 focus:outline-none focus:border-cyan-300 transition-all duration-300"
+                        placeholder="CYBER-AGENT-[ID]"
+                    />
+                    <div v-if="form.errors.name" class="text-xs text-pink-400 mt-1">
+                        {{ form.errors.name }}
                     </div>
-                    <p v-if="form.errors.name" class="cyber-error">{{ form.errors.name }}</p>
                 </div>
 
-                <!-- Email Input -->
-                <div class="cyber-input-group">
-                    <label class="cyber-label">ENCRYPTED CHANNEL</label>
-                    <div class="cyber-input-container">
-                        <input 
-                            type="email" 
-                            v-model="form.email"
-                            required
-                            autocomplete="username"
-                            class="cyber-input"
-                            placeholder="secure@cyber.net"
-                        />
-                        <div class="cyber-input-decoration"></div>
+                <!-- Encrypted Channel -->
+                <div class="relative">
+                    <label class="block text-sm text-cyan-300 mb-2">ENCRYPTED COMMUNICATION NODE</label>
+                    <input 
+                        type="email" 
+                        v-model="form.email"
+                        required
+                        class="w-full bg-[#1a1e3a] border-2 border-cyan-500/30 text-cyan-100 rounded-lg py-3 px-4 focus:outline-none focus:border-cyan-300 transition-all duration-300"
+                        placeholder="secure.transmission@network.cyber"
+                    />
+                    <div v-if="form.errors.email" class="text-xs text-pink-400 mt-1">
+                        {{ form.errors.email }}
                     </div>
-                    <p v-if="form.errors.email" class="cyber-error">{{ form.errors.email }}</p>
                 </div>
 
-                <!-- Password Inputs -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="cyber-input-group">
-                        <label class="cyber-label">CIPHER KEY</label>
-                        <div class="cyber-input-container">
+                <!-- Password Fields -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Primary Password -->
+                    <div>
+                        <label class="block text-sm text-cyan-300 mb-2">ACCESS KEY</label>
+                        <div class="relative">
                             <input 
-                                type="password" 
+                                :type="passwordVisible ? 'text' : 'password'"
                                 v-model="form.password"
                                 required
-                                autocomplete="new-password"
-                                class="cyber-input"
+                                class="w-full bg-[#1a1e3a] border-2 border-cyan-500/30 text-cyan-100 rounded-lg py-3 px-4 pr-10 focus:outline-none focus:border-cyan-300 transition-all duration-300"
                                 placeholder="••••••••"
                             />
-                            <div class="cyber-input-decoration"></div>
+                            <button 
+                                type="button" 
+                                @click="togglePasswordVisibility('password')"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-cyan-300 hover:text-cyan-100"
+                            >
+                                <i :class="passwordVisible ? 'fa-eye-slash' : 'fa-eye'" class="fas"></i>
+                            </button>
                         </div>
-                        <p v-if="form.errors.password" class="cyber-error">{{ form.errors.password }}</p>
+                        <div v-if="form.errors.password" class="text-xs text-pink-400 mt-1">
+                            {{ form.errors.password }}
+                        </div>
                     </div>
 
-                    <div class="cyber-input-group">
-                        <label class="cyber-label">KEY CONFIRM</label>
-                        <div class="cyber-input-container">
+                    <!-- Confirmation Password -->
+                    <div>
+                        <label class="block text-sm text-cyan-300 mb-2">CONFIRM KEY</label>
+                        <div class="relative">
                             <input 
-                                type="password" 
+                                :type="confirmPasswordVisible ? 'text' : 'password'"
                                 v-model="form.password_confirmation"
                                 required
-                                autocomplete="new-password"
-                                class="cyber-input"
+                                class="w-full bg-[#1a1e3a] border-2 border-cyan-500/30 text-cyan-100 rounded-lg py-3 px-4 pr-10 focus:outline-none focus:border-cyan-300 transition-all duration-300"
                                 placeholder="••••••••"
                             />
-                            <div class="cyber-input-decoration"></div>
+                            <button 
+                                type="button" 
+                                @click="togglePasswordVisibility('confirm')"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-cyan-300 hover:text-cyan-100"
+                            >
+                                <i :class="confirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye'" class="fas"></i>
+                            </button>
                         </div>
-                        <p v-if="form.errors.password_confirmation" class="cyber-error">{{ form.errors.password_confirmation }}</p>
+                        <div v-if="form.errors.password_confirmation" class="text-xs text-pink-400 mt-1">
+                            {{ form.errors.password_confirmation }}
+                        </div>
                     </div>
                 </div>
 
-                <!-- Terms Checkbox -->
-                <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="cyber-checkbox-group">
+                <!-- Terms Acknowledgement -->
+                <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="flex items-center space-x-3">
                     <input 
-                        id="terms"
                         type="checkbox"
                         v-model="form.terms"
                         required
-                        class="cyber-checkbox-input"
+                        class="form-checkbox bg-transparent border-2 border-cyan-500 text-cyan-500 rounded focus:ring-2 focus:ring-cyan-300"
                     />
-                    <label htmlFor="terms" class="cyber-checkbox-label">
-                        ACKNOWLEDGE <a :href="route('terms.show')" class="cyber-link-inline">TERMS</a> & 
-                        <a :href="route('policy.show')" class="cyber-link-inline">DIRECTIVES</a>
+                    <label class="text-sm text-cyan-300">
+                        I acknowledge the 
+                        <Link :href="route('terms.show')" class="text-pink-400 hover:text-cyan-300 underline">
+                            System Protocols
+                        </Link>
                     </label>
                 </div>
 
-                <!-- Form Actions -->
-                <div class="flex items-center justify-between mt-8">
+                <!-- Action Buttons -->
+                <div class="flex justify-between items-center mt-6">
                     <Link 
                         :href="route('login')" 
-                        class="cyber-link"
+                        class="text-cyan-300 hover:text-cyan-100 transition-colors"
                     >
-                        > EXISTING OPERATIVE
+                        ← Existing Operative Login
                     </Link>
 
                     <button 
                         type="submit" 
                         :disabled="form.processing"
-                        class="cyber-button"
+                        class="bg-gradient-to-r from-cyan-500 to-pink-500 text-white py-3 px-6 rounded-lg hover:opacity-90 transition-all duration-300 relative overflow-hidden"
                     >
-                        <span class="cyber-button-content">
-                            INITIATE PROTOCOL
-                            <span class="cyber-button-glitch">ACCESS_REQUESTED</span>
-                        </span>
+                        <span class="relative z-10">INITIALIZE PROTOCOL</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-pink-500/30 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                     </button>
                 </div>
             </form>
         </div>
 
-        <!-- System Overlay Effects -->
-        <div class="absolute inset-0 scanning-line"></div>
-        <div class="absolute inset-0 data-stream"></div>
+        <!-- Scanline Effect -->
+        <div class="fixed inset-0 pointer-events-none z-20 opacity-10">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent animate-scanline"></div>
+        </div>
     </div>
 </template>
 
-<style>
-/* Enhanced Cyberpunk Styles */
-.holographic-header {
-    position: relative;
-    overflow: hidden;
+<style scoped>
+@keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
 }
 
-.holographic-header::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(
-        to right,
-        transparent 0%,
-        rgba(0, 247, 255, 0.1) 50%,
-        transparent 100%
-    );
-    animation: hologram-sweep 3s infinite;
+.bg-grid-neon {
+    background-image: 
+        linear-gradient(to right, rgba(0,247,255,0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,247,255,0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
 }
 
-.data-stream {
-    background: repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        transparent 5px,
-        rgba(0, 247, 255, 0.05) 5px,
-        rgba(0, 247, 255, 0.05) 10px
-    );
-    animation: data-stream 20s linear infinite;
-}
-
-.cyber-checkbox-group {
-    @apply flex items-center space-x-2 p-3 border border-cyan-500/30 bg-black/50;
-}
-
-.cyber-link-inline {
-    @apply text-pink-400 hover:text-cyan-400 transition-colors duration-300;
-}
-
-@keyframes energy-pulse {
-    0% { opacity: 0.1; transform: scale(0.8); }
-    50% { opacity: 0.3; transform: scale(1.2); }
-    100% { opacity: 0.1; transform: scale(0.8); }
-}
-
-@keyframes hologram-sweep {
-    0% { left: -100%; }
-    100% { left: 200%; }
-}
-
-@keyframes data-stream {
-    from { background-position: 0 0; }
-    to { background-position: 0 100vh; }
+.animate-scanline {
+    animation: scanline 5s linear infinite;
 }
 </style>
