@@ -1,29 +1,51 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 
-defineProps({
+const props = defineProps({
     canLogin: {
         type: Boolean,
+        default: false
     },
     canRegister: {
         type: Boolean,
+        default: false
     },
     laravelVersion: {
         type: String,
-        required: true,
+        required: true
     },
     phpVersion: {
         type: String,
-        required: true,
-    },
+        required: true
+    }
 });
 
-function handleImageError() {
-    document.getElementById('screenshot-container')?.classList.add('!hidden');
-    document.getElementById('docs-card')?.classList.add('!row-span-1');
-    document.getElementById('docs-card-content')?.classList.add('!flex-row');
-    document.getElementById('background')?.classList.add('!hidden');
-}
+const features = [
+    {
+        title: "Neural Network",
+        description: "Connect with like-minded individuals in our cyberpunk community."
+    },
+    {
+        title: "Quantum Encryption",
+        description: "Your thoughts are secured with state-of-the-art protection."
+    },
+    {
+        title: "Digital Identity",
+        description: "Create and customize your unique digital presence."
+    },
+    {
+        title: "Neural Feed",
+        description: "Experience a personalized stream of consciousness."
+    },
+    {
+        title: "Cyber Achievements",
+        description: "Earn recognition for your digital contributions."
+    },
+    {
+        title: "Holographic Tags",
+        description: "Organize content with our advanced tagging system."
+    }
+];
 </script>
 
 <template>
@@ -68,10 +90,10 @@ function handleImageError() {
         <!-- Main Content -->
         <div class="relative min-h-screen flex flex-col items-center justify-center px-6">
             <!-- Logo -->
-            <div class="text-center mb-12">
-                <h1 class="font-['Orbitron'] text-6xl font-light tracking-wider mb-4">
-                    <span class="text-[#00FFFF]">Cyber</span>
-                    <span class="text-[#FF00FF]">Tweet</span>
+            <div class="text-center mb-12 animate-fade-in">
+                <h1 class="font-['Orbitron'] text-6xl font-light tracking-wider mb-4 animate-glow">
+                    <span class="text-[#00FFFF] hover:text-[#FF00FF] transition-colors duration-300">Cyber</span>
+                    <span class="text-[#FF00FF] hover:text-[#00FFFF] transition-colors duration-300">Tweet</span>
                 </h1>
                 <p class="text-[#00FFFF]/60 text-xl">
                     The Future of Social Connection
@@ -80,8 +102,11 @@ function handleImageError() {
 
             <!-- Features Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                <div v-for="(feature, index) in features" :key="index" 
-                    class="relative group">
+                <div v-for="(feature, index) in features" 
+                    :key="index" 
+                    class="relative group transform hover:scale-105 transition-all duration-300"
+                    :style="{ 'animation-delay': `${index * 100}ms` }"
+                >
                     <div class="absolute -inset-[1px] bg-gradient-to-r from-[#00FFFF] via-[#FF00FF] to-[#00FFFF] rounded-lg opacity-30 blur group-hover:opacity-50 transition-opacity"></div>
                     <div class="relative bg-[#001122]/95 backdrop-blur-xl border border-[#00FFFF]/20 p-6 rounded-lg">
                         <h3 class="font-['Orbitron'] text-[#00FFFF] text-xl mb-3">{{ feature.title }}</h3>
@@ -103,39 +128,20 @@ function handleImageError() {
     </div>
 </template>
 
-<script>
-const features = [
-    {
-        title: "Neural Network",
-        description: "Connect with like-minded individuals in our cyberpunk community."
-    },
-    {
-        title: "Quantum Encryption",
-        description: "Your thoughts are secured with state-of-the-art protection."
-    },
-    {
-        title: "Digital Identity",
-        description: "Create and customize your unique digital presence."
-    },
-    {
-        title: "Neural Feed",
-        description: "Experience a personalized stream of consciousness."
-    },
-    {
-        title: "Cyber Achievements",
-        description: "Earn recognition for your digital contributions."
-    },
-    {
-        title: "Holographic Tags",
-        description: "Organize content with our advanced tagging system."
-    }
-];
-</script>
-
 <style scoped>
 @keyframes scanline {
     from { transform: translateY(-100%); }
     to { transform: translateY(100%); }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
+    50% { text-shadow: 0 0 40px rgba(255, 0, 255, 0.5); }
 }
 
 .bg-grid-neon {
@@ -147,5 +153,18 @@ const features = [
 
 .animate-scanline {
     animation: scanline 8s linear infinite;
+}
+
+.animate-fade-in {
+    animation: fade-in 1s ease-out forwards;
+}
+
+.animate-glow {
+    animation: glow 3s ease-in-out infinite;
+}
+
+.grid > div {
+    animation: fade-in 0.5s ease-out forwards;
+    opacity: 0;
 }
 </style>
