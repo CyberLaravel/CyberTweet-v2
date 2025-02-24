@@ -1,3 +1,5 @@
+> ⚠️ **Development Status**: This project is currently under active development and is not ready for production use. Features may be incomplete or subject to change.
+
 # CyberTweet
 
 A cyberpunk-themed social network with real-time interactions and a neon-soaked UI.
