@@ -1,0 +1,15 @@
+---
+description: 
+globs: database/seeders/**/*.php
+---
+
+### **Laravel Seeders**
+
+-   **Use seeders to populate the database** with default or testing data (`database/seeders`).
+-   **Call factories inside seeders** for bulk data creation (`User::factory()->count(50)->create()`).
+-   **Define `run()` method properly** to execute seeding logic in each seeder file.
+-   **Use `\DB::table('users')->insert([]);`** for inserting specific predefined records.
+-   **Reference models directly** when necessary (`User::create([...])`).
+-   **Use `call()` method inside `DatabaseSeeder`** to run multiple seeders sequentially.
+-   **Always test seeding with `php artisan db:seed`** to verify correct data insertion.
+-   **Use condition-based seeding** if you only want to seed missing data (`User::firstOrCreate([...])`).

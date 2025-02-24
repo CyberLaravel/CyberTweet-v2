@@ -6,9 +6,6 @@ const form = useForm({
     email: '',
 });
 
-const isHovered = ref(false);
-const isSubmitting = ref(false);
-
 const isValidEmail = computed(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(form.email);
@@ -16,171 +13,141 @@ const isValidEmail = computed(() => {
 
 const submit = () => {
     if (isValidEmail.value) {
-        isSubmitting.value = true;
-        form.post(route('password.email'), {
-            onFinish: () => {
-                isSubmitting.value = false;
-            },
-            onError: () => {
-                console.error('Password recovery failed');
-            }
-        });
+        form.post(route('password.email'));
     }
 };
 </script>
 
 <template>
-    <Head title="CyberTweet Recovery" />
+    <Head title="Neural Key Recovery" />
 
-    <div class="min-h-screen flex items-center justify-center bg-black overflow-hidden relative">
-        <!-- Matrix Background Effect -->
-        <div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-black/90 via-black/70 to-black/90 
-                    before:absolute before:inset-0 before:bg-grid-cyan/5 
-                    after:absolute after:inset-0 after:bg-radial-cyan/10"></div>
+    <div class="min-h-screen bg-[#001122] flex items-center justify-center p-6 relative overflow-hidden">
+        <!-- Cyberpunk Background Effects -->
+        <div class="absolute inset-0 bg-grid-neon opacity-5"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-[#00FFFF]/10 rounded-full blur-[128px] animate-pulse"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-[#FF00FF]/10 rounded-full blur-[128px] animate-pulse delay-1000"></div>
 
-        <!-- Quantum Core Glow -->
-        <div class="absolute -top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-                    w-[150vh] h-[150vh] 
-                    bg-gradient-radial from-cyan-500/10 via-pink-500/10 to-transparent 
-                    blur-[100px] animate-quantum-pulse"></div>
-
-        <!-- Main Container -->
-        <div class="relative z-10 w-full max-w-md p-8 
-                    bg-black/80 
-                    border-2 border-cyan-500/30 
-                    backdrop-blur-xl 
-                    rounded-xl 
-                    shadow-2xl 
-                    hover:scale-[1.01] 
-                    transition-transform 
-                    duration-500">
-
-            <!-- Header -->
+        <!-- Recovery Form -->
+        <div class="w-full max-w-md relative">
+            <!-- Logo -->
             <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold uppercase 
-                           bg-gradient-to-r from-cyan-400 to-pink-500 
-                           bg-clip-text text-transparent 
-                           tracking-wider
-                           drop-shadow-[0_0_10px_rgba(0,255,255,0.3)]">
-                    CYBERTWEET RECOVERY
+                <h1 class="text-4xl font-light tracking-wider font-['Orbitron'] relative">
+                    <span class="relative inline-block">
+                        <span class="relative z-10">
+                            <span class="text-[#00FFFF]">Neural</span>
+                            <span class="text-[#FF00FF]">Recovery</span>
+                        </span>
+                        <span class="absolute inset-0 text-[#00FFFF] opacity-50 glitch-1"></span>
+                        <span class="absolute inset-0 text-[#FF00FF] opacity-50 glitch-2"></span>
+                    </span>
                 </h1>
-                <p class="text-xs text-cyan-300 mt-2 
-                          font-mono 
-                          tracking-[0.3em] 
-                          uppercase 
-                          opacity-80
-                          drop-shadow-[0_0_5px_rgba(0,255,255,0.3)]">
-                    SECURE ACCESS PROTOCOL v3.7.2
-                </p>
-                <div class="h-[2px] mt-4 bg-gradient-to-r from-cyan-500 to-pink-500 
-                            shadow-[0_0_10px_rgba(0,255,255,0.5)]"></div>
+                <p class="mt-2 text-[#00FFFF]/60 text-sm uppercase tracking-[0.2em]">Access Key Reset Protocol</p>
+                <div class="h-[1px] w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-[#00FFFF]/50 to-transparent"></div>
             </div>
 
-            <!-- Form -->
-            <form @submit.prevent="submit" class="space-y-6">
-                <div>
-                    <div class="flex justify-between items-center text-xs text-cyan-300 mb-2">
-                        <span class="tracking-wider opacity-80 
-                                     drop-shadow-[0_0_5px_rgba(0,255,255,0.5)]">
-                            ENCRYPTED COMMUNICATION CHANNEL
-                        </span>
-                        <span class="text-pink-400 font-mono 
-                                     drop-shadow-[0_0_5px_rgba(255,0,255,0.5)]">
-                            [SECURE_INPUT]
-                        </span>
-                    </div>
+            <!-- Status Message -->
+            <div v-if="$page.props.status" class="mb-6 text-sm text-[#00FFFF] bg-[#00FFFF]/5 border border-[#00FFFF]/20 rounded-lg p-4">
+                {{ $page.props.status }}
+            </div>
 
-                    <input 
-                        type="email" 
-                        v-model="form.email" 
-                        required 
-                        autofocus 
-                        autocomplete="username"
-                        class="w-full px-4 py-3 
-                               bg-black/60 text-cyan-200 
-                               border-2 border-cyan-500/30 
-                               placeholder-cyan-500/50
-                               focus:border-pink-500 
-                               transition-colors 
-                               duration-300
-                               tracking-wider
-                               shadow-inner
-                               focus:ring-2 focus:ring-pink-500/50"
-                        :class="{
-                            'border-red-500': form.errors.email,
-                            'border-green-500': isValidEmail
-                        }"
-                        placeholder="agent@cybertweet.protocol" 
-                    />
+            <!-- Neon Border Effect -->
+            <div class="absolute -inset-[2px] bg-gradient-to-r from-[#00FFFF] via-[#FF00FF] to-[#00FFFF] rounded-lg opacity-30 blur"></div>
+            
+            <div class="relative bg-[#001122]/95 backdrop-blur-xl border border-[#00FFFF]/20 rounded-lg p-8 shadow-[0_0_50px_rgba(0,255,255,0.1)]">
+                <!-- Corner Accents -->
+                <div class="absolute top-0 left-0 w-2 h-2 border-l-2 border-t-2 border-[#00FFFF]/50"></div>
+                <div class="absolute top-0 right-0 w-2 h-2 border-r-2 border-t-2 border-[#00FFFF]/50"></div>
+                <div class="absolute bottom-0 left-0 w-2 h-2 border-l-2 border-b-2 border-[#00FFFF]/50"></div>
+                <div class="absolute bottom-0 right-0 w-2 h-2 border-r-2 border-b-2 border-[#00FFFF]/50"></div>
 
-                    <p v-if="form.errors.email" class="text-red-400 text-xs mt-2 flex items-center 
-                             drop-shadow-[0_0_5px_rgba(255,0,0,0.5)]">
-                        <span class="mr-2 text-red-500">⚠</span>
-                        {{ form.errors.email }}
-                    </p>
+                <div class="mb-6 text-[#00FFFF]/80 text-sm leading-relaxed">
+                    Enter your neural link address. We'll transmit a secure reset protocol to restore your access.
                 </div>
 
-                <button 
-                    type="submit" 
-                    :disabled="form.processing || !isValidEmail"
-                    class="w-full py-4 
-                           bg-gradient-to-r from-cyan-600/80 to-pink-600/80
-                           hover:from-cyan-500 hover:to-pink-500
-                           text-white 
-                           font-bold 
-                           uppercase 
-                           tracking-wider 
-                           rounded
-                           transition-all 
-                           duration-500
-                           disabled:opacity-30
-                           shadow-2xl
-                           hover:shadow-cyan-500/50
-                           focus:outline-none 
-                           focus:ring-2 
-                           focus:ring-pink-500/50"
-                >
-                    <span class="block 
-                                 drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">
-                        Initiate Recovery
-                    </span>
-                    <span class="block text-xs mt-1 
-                                 text-cyan-300 
-                                 opacity-70 
-                                 tracking-[0.2em]
-                                 drop-shadow-[0_0_5px_rgba(0,255,255,0.3)]">
-                        QUANTUM_SECURE_TRANSMISSION
-                    </span>
-                </button>
-            </form>
+                <form @submit.prevent="submit" class="space-y-6">
+                    <!-- Email Input -->
+                    <div>
+                        <label class="block text-[#00FFFF]/80 text-sm mb-2">NEURAL LINK</label>
+                        <div class="relative">
+                            <input
+                                v-model="form.email"
+                                type="email"
+                                required
+                                class="w-full bg-[#001122] border border-[#00FFFF]/20 rounded-lg px-4 py-3 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF]/60 focus:ring-1 focus:ring-[#00FFFF]/50 transition-all duration-300"
+                                :class="{ 'border-[#FF00FF]/50': form.errors.email, 'border-[#00FF00]/50': isValidEmail && !form.errors.email }"
+                                placeholder="your@email.com"
+                            />
+                            <div class="absolute right-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#00FFFF]/50 via-[#FF00FF]/50 to-transparent"></div>
+                        </div>
+                        <p v-if="form.errors.email" class="mt-1 text-sm text-[#FF00FF]">{{ form.errors.email }}</p>
+                    </div>
 
-            <div class="mt-6 text-center">
-                <Link 
-                    :href="route('login')" 
-                    class="text-cyan-400 
-                           hover:text-pink-500 
-                           transition-colors 
-                           tracking-wider 
-                           text-sm
-                           drop-shadow-[0_0_5px_rgba(0,255,255,0.3)]"
-                >
-                    Back to Login
-                </Link>
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                        <Link
+                            :href="route('login')"
+                            class="text-[#00FFFF]/60 hover:text-[#00FFFF] text-sm transition-colors relative group"
+                        >
+                            <span class="mr-2 text-[#FF00FF]">&lt;</span>
+                            <span>RETURN TO LOGIN</span>
+                            <span class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#00FFFF] group-hover:w-full transition-all duration-300"></span>
+                        </Link>
+
+                        <button
+                            type="submit"
+                            :disabled="form.processing || !isValidEmail"
+                            class="relative px-6 py-2 bg-gradient-to-r from-[#00FFFF] to-[#FF00FF] text-white rounded-lg overflow-hidden transition-all duration-300 hover:opacity-90 disabled:opacity-50 group"
+                        >
+                            <span class="relative z-10">INITIATE RECOVERY</span>
+                            <div class="absolute inset-0 bg-white/20 translate-y-12 group-hover:translate-y-0 transition-transform duration-300"></div>
+                        </button>
+                    </div>
+                </form>
             </div>
+        </div>
+
+        <!-- Scanline Effect -->
+        <div class="pointer-events-none fixed inset-0">
+            <div class="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,255,255,0.1)_50%)] bg-[length:100%_4px] animate-scanline"></div>
         </div>
     </div>
 </template>
 
 <style scoped>
-/* Removed all custom CSS classes */
-@keyframes quantum-pulse {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(1) rotate(0deg);
-        opacity: 0.3;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
-        opacity: 0.5;
-    }
+@keyframes scanline {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+}
+
+.bg-grid-neon {
+    background-image: 
+        linear-gradient(to right, rgba(0,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.animate-scanline {
+    animation: scanline 8s linear infinite;
+}
+
+.glitch-1 {
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    transform: translate(-2px, 2px);
+    animation: glitch 1s infinite linear alternate-reverse;
+}
+
+.glitch-2 {
+    clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
+    transform: translate(2px, -2px);
+    animation: glitch 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
 }
 </style>

@@ -1,0 +1,16 @@
+---
+description: 
+globs: database/factories/**/*.php
+---
+
+### **Laravel Factories**
+
+-   **Use model factories** to generate test data efficiently for seeding and testing.
+-   **Define factory logic in `database/factories/ModelFactory.php`**, ensuring realistic dummy data.
+-   **Utilize Faker (`$this->faker`)** to generate random names, emails, dates, and other fields.
+-   **Use state modifiers (`state()`)** to define different variations of a model (e.g., `published`, `draft`).
+-   **Ensure relationships are correctly defined** by associating related models within the factory (`User::factory()->hasPosts(5)`).
+-   **Use factories within seeders and tests** to create bulk records efficiently.
+-   **Leverage `afterCreating()` and `afterMaking()` hooks** for additional logic after model instantiation.
+-   **Customize factory attributes dynamically** when calling `factory()->create(['status' => 'active'])`.
+-   **Use `count()` method** to generate multiple records at once (`User::factory()->count(50)->create()`).

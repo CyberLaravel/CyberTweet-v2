@@ -40,59 +40,63 @@ const updatePassword = () => {
 <template>
     <FormSection @submitted="updatePassword">
         <template #title>
-            Update Password
+            <span class="text-[#00FFFF] font-['Orbitron'] tracking-wider">UPDATE PASSWORD</span>
         </template>
 
         <template #description>
-            Ensure your account is using a long, random password to stay secure.
+            <span class="text-[#00FFFF]/70">Ensure your account is using a long, random password to stay secure.</span>
         </template>
 
         <template #form>
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="current_password" value="Current Password" />
+                <InputLabel for="current_password" value="Current Password" class="text-[#00FFFF]" />
                 <TextInput
                     id="current_password"
                     ref="currentPasswordInput"
                     v-model="form.current_password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full bg-[#001122] border-[#00FFFF]/20 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF] focus:ring focus:ring-[#00FFFF]/20"
                     autocomplete="current-password"
                 />
-                <InputError :message="form.errors.current_password" class="mt-2" />
+                <InputError :message="form.errors.current_password" class="mt-2 text-[#FF00FF]" />
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password" value="New Password" />
+                <InputLabel for="password" value="New Password" class="text-[#00FFFF]" />
                 <TextInput
                     id="password"
                     ref="passwordInput"
                     v-model="form.password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full bg-[#001122] border-[#00FFFF]/20 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF] focus:ring focus:ring-[#00FFFF]/20"
                     autocomplete="new-password"
                 />
-                <InputError :message="form.errors.password" class="mt-2" />
+                <InputError :message="form.errors.password" class="mt-2 text-[#FF00FF]" />
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirm Password" class="text-[#00FFFF]" />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full bg-[#001122] border-[#00FFFF]/20 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF] focus:ring focus:ring-[#00FFFF]/20"
                     autocomplete="new-password"
                 />
-                <InputError :message="form.errors.password_confirmation" class="mt-2" />
+                <InputError :message="form.errors.password_confirmation" class="mt-2 text-[#FF00FF]" />
             </div>
         </template>
 
         <template #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="me-3">
+            <ActionMessage :on="form.recentlySuccessful" class="me-3 text-[#00FFFF]">
                 Saved.
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <PrimaryButton 
+                :class="{ 'opacity-25': form.processing }" 
+                :disabled="form.processing"
+                class="bg-[#00FFFF]/10 border border-[#00FFFF]/20 text-[#00FFFF] hover:bg-[#00FFFF]/20"
+            >
                 Save
             </PrimaryButton>
         </template>

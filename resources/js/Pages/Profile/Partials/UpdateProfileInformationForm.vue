@@ -78,11 +78,11 @@ const clearPhotoFileInput = () => {
 <template>
     <FormSection @submitted="updateProfileInformation">
         <template #title>
-            Profile Information
+            <span class="text-[#00FFFF] font-['Orbitron'] tracking-wider">PROFILE INFORMATION</span>
         </template>
 
         <template #description>
-            Update your account's profile information and email address.
+            <span class="text-[#00FFFF]/70">Update your account's profile information and email address.</span>
         </template>
 
         <template #form>
@@ -90,87 +90,82 @@ const clearPhotoFileInput = () => {
             <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
                 <input
-                    id="photo"
                     ref="photoInput"
                     type="file"
                     class="hidden"
                     @change="updatePhotoPreview"
                 >
 
-                <InputLabel for="photo" value="Photo" />
+                <InputLabel for="photo" value="Photo" class="text-[#00FFFF]" />
 
                 <!-- Current Profile Photo -->
-                <div v-show="! photoPreview" class="mt-2">
-                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full size-20 object-cover">
+                <div v-show="!photoPreview" class="mt-2">
+                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover border-2 border-[#00FFFF] shadow-[0_0_10px_rgba(0,255,255,0.3)]">
                 </div>
 
                 <!-- New Profile Photo Preview -->
                 <div v-show="photoPreview" class="mt-2">
                     <span
-                        class="block rounded-full size-20 bg-cover bg-no-repeat bg-center"
+                        class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center border-2 border-[#00FFFF] shadow-[0_0_10px_rgba(0,255,255,0.3)]"
                         :style="'background-image: url(\'' + photoPreview + '\');'"
                     />
                 </div>
 
-                <SecondaryButton class="mt-2 me-2" type="button" @click.prevent="selectNewPhoto">
+                <SecondaryButton class="mt-2 me-2 bg-[#001122] text-[#00FFFF] border-[#00FFFF]/20 hover:bg-[#00FFFF]/10" @click.prevent="selectNewPhoto">
                     Select A New Photo
                 </SecondaryButton>
 
                 <SecondaryButton
                     v-if="user.profile_photo_path"
-                    type="button"
-                    class="mt-2"
+                    class="mt-2 bg-[#001122] text-[#FF00FF] border-[#FF00FF]/20 hover:bg-[#FF00FF]/10"
                     @click.prevent="deletePhoto"
                 >
                     Remove Photo
                 </SecondaryButton>
 
-                <InputError :message="form.errors.photo" class="mt-2" />
+                <InputError :message="form.errors.photo" class="mt-2 text-[#FF00FF]" />
             </div>
 
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Name" class="text-[#00FFFF]" />
                 <TextInput
                     id="name"
                     v-model="form.name"
                     type="text"
-                    class="mt-1 block w-full"
-                    required
+                    class="mt-1 block w-full bg-[#001122] border-[#00FFFF]/20 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF] focus:ring focus:ring-[#00FFFF]/20"
                     autocomplete="name"
                 />
-                <InputError :message="form.errors.name" class="mt-2" />
+                <InputError :message="form.errors.name" class="mt-2 text-[#FF00FF]" />
             </div>
 
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="Email" class="text-[#00FFFF]" />
                 <TextInput
                     id="email"
                     v-model="form.email"
                     type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="username"
+                    class="mt-1 block w-full bg-[#001122] border-[#00FFFF]/20 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF] focus:ring focus:ring-[#00FFFF]/20"
                 />
-                <InputError :message="form.errors.email" class="mt-2" />
+                <InputError :message="form.errors.email" class="mt-2 text-[#FF00FF]" />
 
                 <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
-                    <p class="text-sm mt-2 dark:text-white">
+                    <p class="text-sm mt-2 text-[#FF00FF]">
                         Your email address is unverified.
 
                         <Link
                             :href="route('verification.send')"
                             method="post"
                             as="button"
-                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                            class="text-[#00FFFF] hover:text-[#FF00FF] transition-colors underline rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00FFFF]"
                             @click.prevent="sendEmailVerification"
                         >
                             Click here to re-send the verification email.
                         </Link>
                     </p>
 
-                    <div v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                    <div v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-[#00FFFF]">
                         A new verification link has been sent to your email address.
                     </div>
                 </div>
@@ -178,11 +173,15 @@ const clearPhotoFileInput = () => {
         </template>
 
         <template #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="me-3">
+            <ActionMessage :on="form.recentlySuccessful" class="me-3 text-[#00FFFF]">
                 Saved.
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <PrimaryButton 
+                :class="{ 'opacity-25': form.processing }" 
+                :disabled="form.processing"
+                class="bg-[#00FFFF]/10 border border-[#00FFFF]/20 text-[#00FFFF] hover:bg-[#00FFFF]/20"
+            >
                 Save
             </PrimaryButton>
         </template>

@@ -1,0 +1,17 @@
+---
+description: 
+globs: database/migrations/**/*.php
+---
+
+### **Laravel Migrations**
+
+-   **Follow naming conventions** for migrations:
+    -   Format: `YYYY_MM_DD_HHMMSS_create_tableName_table.php`.
+    -   Example: `2025_02_24_123456_create_users_table.php`.
+-   **Define columns properly** using `Schema::create()` and appropriate column types (`string`, `integer`, `json`, `boolean`, `timestamps`).
+-   **Use `foreignId()->constrained()`** for defining foreign key relationships.
+-   **Apply `nullable()`, `default()`, and `unique()` constraints** where necessary.
+-   **Use `up()` for defining schema changes** and **`down()` for rolling back migrations**.
+-   **Run `php artisan migrate --seed`** to ensure migrations and seeders work together seamlessly.
+-   **Use `renameColumn()` and `addColumn()` in new migrations** instead of modifying existing ones after deployment.
+-   **Ensure migrations are idempotent**, avoiding schema conflicts when running multiple times.

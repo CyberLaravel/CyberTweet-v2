@@ -14,6 +14,8 @@ use Laravel\Jetstream\Features;
  */
 class UserFactory extends Factory
 {
+    protected $model = User::class;
+
     /**
      * The current password being used by the factory.
      */
@@ -27,24 +29,21 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $this->faker->name(),
+            'username' => $this->faker->unique()->userName(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+            'bio' => $this->faker->optional()->text(200),
+            'location' => $this->faker->optional()->city(),
+            'website' => $this->faker->optional()->url(),
+            'twitter_username' => $this->faker->optional()->userName(),
+            'github_username' => $this->faker->optional()->userName(),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
-            'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
-            
-            // New social columns
-            'username' => fake()->unique()->userName(),
-            'bio' => fake()->optional()->paragraph(),
-            'location' => fake()->optional()->city(),
-            'website' => fake()->optional()->url(),
-            'birth_date' => fake()->optional()->dateTimeBetween('-50 years', '-18 years'),
-            'followers_count' => fake()->numberBetween(0, 1000),
-            'following_count' => fake()->numberBetween(0, 500),
         ];
     }
 

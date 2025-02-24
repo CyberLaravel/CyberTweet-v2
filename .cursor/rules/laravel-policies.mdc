@@ -1,0 +1,13 @@
+---
+description: 
+globs: app/Policies/**/*.php
+---
+
+### **Laravel Policies**
+
+-   Create a **policy** for each model that requires authorization.
+-   Define **proper permissions** in the policy to control user access.
+-   Register policies in `AuthServiceProvider` to ensure they are applied.
+-   Use **gates** where necessary for fine-grained authorization.
+-   Apply **policy methods** in controllers using `authorize()` or through routes.
+-   Ensure policies align with **Spatie Laravel Permission v6** roles and permissions.

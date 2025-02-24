@@ -1,0 +1,18 @@
+---
+description: 
+globs: app/Http/Middleware/**/*.php
+---
+
+### **Laravel Middlewares**
+
+-   **Use middleware to handle cross-cutting concerns**, such as authentication, authorization, logging, and request modifications.
+-   **Apply authentication middleware** (e.g., `auth`) to protect routes that require a logged-in user.
+-   **Use role-based and permission-based middleware** with Spatie Laravel Permission v6 to control access (`role:admin`, `permission:edit-posts`).
+-   **Create custom middleware** for handling specific logic, such as API rate limiting, request modifications, or feature toggles.
+-   **Register middleware in `app/Http/Kernel.php`** under the appropriate groups (`$middleware`, `$middlewareGroups`, `$routeMiddleware`).
+-   **Use middleware groups (`web`, `api`)** to apply multiple middlewares to a set of routes efficiently.
+-   **Pass parameters to middleware** for dynamic behavior (e.g., `->middleware('role:editor')`).
+-   **Ensure middleware is efficient**, minimizing unnecessary database queries and logic execution.
+-   **Use `terminate()` method** in middleware when handling post-response tasks, such as logging or analytics.
+-   **Apply global middleware wisely**, ensuring it does not slow down every request unnecessarily.
+-   **Use `handle()` method** properly**, always returning the `$next($request)` call to allow request flow continuation.

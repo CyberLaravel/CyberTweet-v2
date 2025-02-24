@@ -12,18 +12,19 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
             'username' => $this->username,
+            'email' => $this->email,
+            'profile_photo_url' => $this->profile_photo_url,
             'bio' => $this->bio,
             'location' => $this->location,
             'website' => $this->website,
-            'followers_count' => $this->followers_count,
-            'following_count' => $this->following_count,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'followers_count' => $this->whenLoaded('followers', fn() => $this->followers->count()),
+            'following_count' => $this->whenLoaded('following', fn() => $this->following->count()),
             'tweets' => TweetResource::collection($this->whenLoaded('tweets')),
             'theme' => new UserThemeResource($this->whenLoaded('theme')),
             'achievements' => AchievementResource::collection($this->whenLoaded('achievements')),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 } 

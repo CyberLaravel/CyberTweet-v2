@@ -3,93 +3,85 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hashtag;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use App\Http\Resources\HashtagResource;
+use App\Http\Resources\TweetResource;
+use Illuminate\Support\Facades\DB;
 
 class HashtagController extends Controller
 {
     public function index()
     {
-        Gate::authorize('viewAny', Hashtag::class);
-        
-        // Use raw DB query to avoid ambiguity with explicit ordering
-        $hashtags = DB::table('hashtags')
-            ->leftJoin('hashtag_tweet', 'hashtags.id', '=', 'hashtag_tweet.hashtag_id')
-            ->select(
-                'hashtags.id', 
-                'hashtags.name', 
-                'hashtags.created_at', 
-                'hashtags.updated_at',
-                DB::raw('COUNT(hashtag_tweet.tweet_id) as tweets_count')
-            )
-            ->groupBy(
-                'hashtags.id', 
-                'hashtags.name', 
-                'hashtags.created_at', 
-                'hashtags.updated_at'
-            )
+        // Get all hashtags with pagination and proper counts
+        $hashtags = Hashtag::select('hashtags.*')
+            ->withCount('tweets')
+            ->withCount(['tweets as users_count' => function($query) {
+                $query->select(DB::raw('count(distinct user_id)'));
+            }])
             ->orderBy('tweets_count', 'desc')
+            ->paginate(12);
+
+        // Get trending hashtags
+        $trending = Hashtag::select('hashtags.*')
+            ->leftJoin('hashtag_tweet', 'hashtags.id', '=', 'hashtag_tweet.hashtag_id')
+            ->leftJoin('tweets', 'hashtag_tweet.tweet_id', '=', 'tweets.id')
+            ->where('tweets.created_at', '>=', now()->subDays(7))
+            ->groupBy('hashtags.id')
+            ->havingRaw('COUNT(DISTINCT tweets.id) > 0')
+            ->orderByRaw('COUNT(DISTINCT tweets.id) DESC')
+            ->limit(6)
             ->get()
-            ->map(function ($hashtag) {
-                return [
-                    'id' => $hashtag->id,
-                    'name' => $hashtag->name,
-                    'created_at' => $hashtag->created_at,
-                    'updated_at' => $hashtag->updated_at,
-                    'tweets_count' => $hashtag->tweets_count
-                ];
+            ->each(function ($hashtag) {
+                // Load counts for each hashtag
+                $hashtag->loadCount('tweets');
+                $hashtag->loadCount(['tweets as users_count' => function($query) {
+                    $query->select(DB::raw('count(distinct user_id)'));
+                }]);
             });
 
         return Inertia::render('Hashtags/Index', [
-            'hashtags' => $hashtags
+            'hashtags' => HashtagResource::collection($hashtags),
+            'trending' => HashtagResource::collection($trending),
         ]);
     }
 
     public function show(Hashtag $hashtag)
     {
-        Gate::authorize('view', $hashtag);
-        $tweets = $hashtag->tweets()->with('user')->paginate(20);
+        $tweets = $hashtag->tweets()
+            ->with(['user', 'likes', 'hashtags'])
+            ->latest()
+            ->paginate(10);
+
+        $hashtag->loadCount('tweets');
+        $hashtag->loadCount(['tweets as users_count' => function($query) {
+            $query->select(DB::raw('count(distinct user_id)'));
+        }]);
 
         return Inertia::render('Hashtags/Show', [
-            'hashtag' => $hashtag,
-            'tweets' => $tweets
+            'hashtag' => new HashtagResource($hashtag),
+            'tweets' => TweetResource::collection($tweets),
         ]);
     }
 
     public function trending()
     {
-        Gate::authorize('viewAny', Hashtag::class);
-        
-        // Similar approach for trending hashtags
-        $trendingHashtags = DB::table('hashtags')
+        $trending = Hashtag::select('hashtags.*')
             ->leftJoin('hashtag_tweet', 'hashtags.id', '=', 'hashtag_tweet.hashtag_id')
-            ->select(
-                'hashtags.id', 
-                'hashtags.name', 
-                'hashtags.created_at', 
-                'hashtags.updated_at',
-                DB::raw('COUNT(hashtag_tweet.tweet_id) as tweets_count')
-            )
-            ->groupBy(
-                'hashtags.id', 
-                'hashtags.name', 
-                'hashtags.created_at', 
-                'hashtags.updated_at'
-            )
-            ->orderBy('tweets_count', 'desc')
+            ->leftJoin('tweets', 'hashtag_tweet.tweet_id', '=', 'tweets.id')
+            ->where('tweets.created_at', '>=', now()->subDays(7))
+            ->groupBy('hashtags.id')
+            ->havingRaw('COUNT(DISTINCT tweets.id) > 0')
+            ->orderByRaw('COUNT(DISTINCT tweets.id) DESC')
             ->limit(10)
             ->get()
-            ->map(function ($hashtag) {
-                return [
-                    'id' => $hashtag->id,
-                    'name' => $hashtag->name,
-                    'created_at' => $hashtag->created_at,
-                    'updated_at' => $hashtag->updated_at,
-                    'tweets_count' => $hashtag->tweets_count
-                ];
+            ->each(function ($hashtag) {
+                // Load counts for each hashtag
+                $hashtag->loadCount('tweets');
+                $hashtag->loadCount(['tweets as users_count' => function($query) {
+                    $query->select(DB::raw('count(distinct user_id)'));
+                }]);
             });
 
-        return response()->json($trendingHashtags);
+        return response()->json(HashtagResource::collection($trending));
     }
 } 

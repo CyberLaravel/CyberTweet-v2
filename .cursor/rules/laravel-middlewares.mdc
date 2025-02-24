@@ -1,0 +1,107 @@
+---
+description: 
+globs: 
+---
+Understanding Middleware: Middleware in Laravel provides a convenient mechanism for inspecting and filtering HTTP requests entering your application. For example, Laravel includes a middleware that verifies the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to your application's login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application.
+laravel.com
+
+Creating Middleware: Generate a new middleware using the Artisan command-line tool:
+
+php artisan make:middleware CheckAge
+
+This command creates a new CheckAge middleware class in the app/Http/Middleware directory.
+laravel.com
+
+Defining Middleware Logic: Within the generated middleware class, implement the handle method to define the filtering logic. For example:
+
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+
+class CheckAge
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        if ($request->age <= 200) {
+            return redirect('home');
+        }
+
+        return $next($request);
+    }
+}
+
+This middleware redirects users to the 'home' route if their age is less than or equal to 200; otherwise, it allows the request to proceed.
+laravel.com
+
+Registering Middleware: In Laravel 11, middleware is registered within the bootstrap/app.php file using the Middleware configuration class. For example:
+
+use App\Http\Middleware\CheckAge;
+use Illuminate\Foundation\Http\Middleware\Middleware;
+
+Middleware::make()
+    ->alias('check.age', CheckAge::class)
+    ->group('web', ['check.age'])
+    ->register();
+
+This code assigns the alias 'check.age' to the CheckAge middleware and adds it to the 'web' middleware group.
+dev.to
+
+Applying Middleware to Routes: Attach middleware to routes or route groups using the middleware method. For example:
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/profile', function () {
+    // Only verified users may access this route...
+})->middleware('verified');
+
+This route applies the 'verified' middleware, ensuring that only verified users can access the '/profile' route.
+laravel.com
+
+Middleware Parameters: Middleware can accept additional parameters. For instance, to restrict access based on user roles:
+
+use Illuminate\Support\Facades\Route;
+
+Route::put('/post/{id}', function ($id) {
+    // Update the post...
+})->middleware('role:editor');
+
+In this example, the 'role' middleware checks if the user has the 'editor' role before allowing access to the route.
+laravel.com
+
+Global Middleware: To apply middleware to all HTTP requests, register it as global middleware within the bootstrap/app.php file:
+
+use App\Http\Middleware\CheckAge;
+use Illuminate\Foundation\Http\Middleware\Middleware;
+
+Middleware::make()
+    ->global(CheckAge::class)
+    ->register();
+
+This configuration ensures that the CheckAge middleware runs on every request to the application.
+dev.to
+
+Middleware Groups: Middleware can be grouped for convenience. For example, to create a 'web' group:
+
+use Illuminate\Foundation\Http\Middleware\Middleware;
+use App\Http\Middleware\CheckAge;
+use App\Http\Middleware\Authenticate;
+
+Middleware::make()
+    ->group('web', [
+        CheckAge::class,
+        Authenticate::class,
+    ])
+    ->register();
+
+This 'web' group includes both the CheckAge and Authenticate middleware, which can be applied to routes as a group.
+dev.to

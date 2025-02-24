@@ -20,98 +20,103 @@ const submit = () => {
 <template>
     <Head title="Neural Access" />
 
-    <div class="min-h-screen flex items-center justify-center bg-black overflow-hidden relative">
-        <!-- Dynamic Background Elements -->
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,247,255,0.1)_0%,transparent_70%)] animate-pulse-slow"></div>
-        <div class="absolute inset-0 bg-[length:50px_50px] bg-[linear-gradient(to_right,rgba(0,247,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,247,255,0.05)_1px,transparent_1px)] animate-grid-float opacity-20"></div>
+    <div class="min-h-screen bg-[#001122] flex items-center justify-center p-6 relative overflow-hidden">
+        <!-- Cyberpunk Background Effects -->
+        <div class="absolute inset-0 bg-grid-neon opacity-5"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-[#00FFFF]/10 rounded-full blur-[128px] animate-pulse"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-[#FF00FF]/10 rounded-full blur-[128px] animate-pulse delay-1000"></div>
 
-        <!-- Neural Network Animation -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="neural-paths"></div>
-        </div>
-
-        <!-- Main Login Container -->
-        <div class="w-full max-w-md p-8 relative z-10">
-            <!-- Glitch Effect Logo -->
-            <div class="text-center mb-12 glitch-container">
-                <h1 class="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-text-shimmer relative">
-                    <span class="glitch-text" data-text="CYBERTWEET">CYBERTWEET</span>
+        <!-- Login Form -->
+        <div class="w-full max-w-md relative">
+            <!-- Logo -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-light tracking-wider font-['Orbitron'] relative">
+                    <span class="relative inline-block">
+                        <span class="relative z-10">
+                            <span class="text-[#00FFFF]">Cyber</span>
+                            <span class="text-[#FF00FF]">Tweet</span>
+                        </span>
+                        <span class="absolute inset-0 text-[#00FFFF] opacity-50 glitch-1"></span>
+                        <span class="absolute inset-0 text-[#FF00FF] opacity-50 glitch-2"></span>
+                    </span>
                 </h1>
-                <div class="mt-2 text-cyan-400 font-mono text-sm tracking-wider">NEURAL.ACCESS.PROTOCOL//v2.0</div>
+                <p class="mt-2 text-[#00FFFF]/60 text-sm uppercase tracking-[0.2em]">Neural Access Protocol</p>
+                <div class="h-[1px] w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-[#00FFFF]/50 to-transparent"></div>
             </div>
 
-            <!-- Login Form -->
-            <div class="bg-black/40 backdrop-blur-xl p-8 rounded-lg border border-cyan-500/30 shadow-[0_0_50px_rgba(0,247,255,0.15)] relative overflow-hidden">
-                <!-- Animated Corner Decorations -->
-                <div class="absolute top-0 left-0 w-2 h-2 border-l-2 border-t-2 border-cyan-500"></div>
-                <div class="absolute top-0 right-0 w-2 h-2 border-r-2 border-t-2 border-cyan-500"></div>
-                <div class="absolute bottom-0 left-0 w-2 h-2 border-l-2 border-b-2 border-cyan-500"></div>
-                <div class="absolute bottom-0 right-0 w-2 h-2 border-r-2 border-b-2 border-cyan-500"></div>
+            <!-- Neon Border Effect -->
+            <div class="absolute -inset-[2px] bg-gradient-to-r from-[#00FFFF] via-[#FF00FF] to-[#00FFFF] rounded-lg opacity-30 blur"></div>
+            
+            <div class="relative bg-[#001122]/95 backdrop-blur-xl border border-[#00FFFF]/20 rounded-lg p-8 shadow-[0_0_50px_rgba(0,255,255,0.1)]">
+                <!-- Corner Accents -->
+                <div class="absolute top-0 left-0 w-2 h-2 border-l-2 border-t-2 border-[#00FFFF]/50"></div>
+                <div class="absolute top-0 right-0 w-2 h-2 border-r-2 border-t-2 border-[#00FFFF]/50"></div>
+                <div class="absolute bottom-0 left-0 w-2 h-2 border-l-2 border-b-2 border-[#00FFFF]/50"></div>
+                <div class="absolute bottom-0 right-0 w-2 h-2 border-r-2 border-b-2 border-[#00FFFF]/50"></div>
 
                 <form @submit.prevent="submit" class="space-y-6">
-                    <!-- Email Field -->
-                    <div class="space-y-2">
-                        <label class="block text-cyan-400 text-sm font-mono">NEURAL.ID</label>
+                    <!-- Email Input -->
+                    <div>
+                        <label class="block text-[#00FFFF]/80 text-sm mb-2">NEURAL LINK</label>
                         <div class="relative">
                             <input
-                                type="email"
                                 v-model="form.email"
+                                type="email"
                                 required
-                                class="w-full bg-black/50 border border-cyan-500/50 text-cyan-300 px-4 py-3 rounded-sm focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-all duration-300 font-mono"
-                                placeholder="agent@neural.net"
+                                class="w-full bg-[#001122] border border-[#00FFFF]/20 rounded-lg px-4 py-3 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF]/60 focus:ring-1 focus:ring-[#00FFFF]/50 transition-all duration-300"
+                                placeholder="your@email.com"
                             />
-                            <div class="absolute right-0 top-0 h-full w-2 bg-gradient-to-b from-cyan-500/50 to-transparent"></div>
+                            <div class="absolute right-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#00FFFF]/50 via-[#FF00FF]/50 to-transparent"></div>
                         </div>
-                        <p v-if="form.errors.email" class="text-red-400 text-xs mt-1">{{ form.errors.email }}</p>
+                        <p v-if="form.errors.email" class="mt-1 text-sm text-[#FF00FF]">{{ form.errors.email }}</p>
                     </div>
 
-                    <!-- Password Field -->
-                    <div class="space-y-2">
-                        <label class="block text-cyan-400 text-sm font-mono">NEURAL.KEY</label>
+                    <!-- Password Input -->
+                    <div>
+                        <label class="block text-[#00FFFF]/80 text-sm mb-2">ACCESS KEY</label>
                         <div class="relative">
                             <input
-                                type="password"
                                 v-model="form.password"
+                                type="password"
                                 required
-                                class="w-full bg-black/50 border border-cyan-500/50 text-cyan-300 px-4 py-3 rounded-sm focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 transition-all duration-300 font-mono"
-                                placeholder="****************"
+                                class="w-full bg-[#001122] border border-[#00FFFF]/20 rounded-lg px-4 py-3 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF]/60 focus:ring-1 focus:ring-[#00FFFF]/50 transition-all duration-300"
+                                placeholder="••••••••"
                             />
-                            <div class="absolute right-0 top-0 h-full w-2 bg-gradient-to-b from-cyan-500/50 to-transparent"></div>
+                            <div class="absolute right-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#00FFFF]/50 via-[#FF00FF]/50 to-transparent"></div>
                         </div>
-                        <p v-if="form.errors.password" class="text-red-400 text-xs mt-1">{{ form.errors.password }}</p>
+                        <p v-if="form.errors.password" class="mt-1 text-sm text-[#FF00FF]">{{ form.errors.password }}</p>
                     </div>
 
-                    <!-- Remember Me Toggle -->
+                    <!-- Remember Me -->
                     <div class="flex items-center space-x-3">
                         <div class="relative">
                             <input
                                 type="checkbox"
-                                id="remember"
                                 v-model="form.remember"
-                                class="w-5 h-5 bg-black border border-cyan-500/50 rounded-sm checked:bg-cyan-500 checked:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all duration-300"
+                                class="rounded border-[#00FFFF]/20 bg-[#001122] text-[#00FFFF] focus:ring-[#00FFFF]/50 transition-colors"
                             />
-                            <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-pink-500/20 filter blur-md transition-opacity duration-300 opacity-0 peer-checked:opacity-100"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-[#00FFFF]/20 to-[#FF00FF]/20 opacity-0 group-checked:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                        <label for="remember" class="text-cyan-400 text-sm font-mono cursor-pointer select-none">MAINTAIN.NEURAL.LINK</label>
+                        <span class="text-sm text-[#00FFFF]/60">MAINTAIN NEURAL LINK</span>
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="flex flex-col sm:flex-row items-center justify-between pt-4 space-y-4 sm:space-y-0 sm:space-x-4">
+                    <div class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 pt-2">
                         <Link
                             :href="route('password.request')"
-                            class="w-full sm:w-auto text-center text-cyan-400 text-sm hover:text-pink-400 transition-colors duration-300 font-mono relative group"
+                            class="text-[#00FFFF]/60 hover:text-[#00FFFF] text-sm transition-colors relative group"
                         >
-                            <span class="relative z-10">NEURAL.KEY.RESET</span>
-                            <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-pink-500 transition-all duration-300 group-hover:w-full"></span>
+                            <span>NEURAL KEY RESET</span>
+                            <span class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#00FFFF] group-hover:w-full transition-all duration-300"></span>
                         </Link>
 
                         <button
                             type="submit"
                             :disabled="form.processing"
-                            class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-black font-bold rounded-sm hover:from-pink-500 hover:to-purple-500 transition-all duration-500 relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="relative px-6 py-2 bg-gradient-to-r from-[#00FFFF] to-[#FF00FF] text-white rounded-lg overflow-hidden transition-all duration-300 hover:opacity-90 disabled:opacity-50 group"
                         >
                             <span class="relative z-10">INITIALIZE ACCESS</span>
-                            <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 transition-transform duration-500 transform translate-x-full group-hover:translate-x-0"></div>
+                            <div class="absolute inset-0 bg-white/20 translate-y-12 group-hover:translate-y-0 transition-transform duration-300"></div>
                         </button>
                     </div>
 
@@ -119,131 +124,71 @@ const submit = () => {
                     <div class="text-center mt-8">
                         <Link
                             :href="route('register')"
-                            class="text-cyan-400 hover:text-pink-400 transition-colors duration-300 font-mono inline-flex items-center group"
+                            class="text-[#00FFFF]/60 hover:text-[#00FFFF] text-sm transition-colors inline-flex items-center group"
                         >
-                            <span class="mr-2">&gt;</span>
-                            <span>REQUEST.NEW.NEURAL.ACCESS</span>
-                            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">_</span>
+                            <span class="mr-2 text-[#FF00FF]">&gt;</span>
+                            <span>REQUEST NEW ACCESS</span>
+                            <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-[#FF00FF]">_</span>
                         </Link>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Animated Scanner Effect -->
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="scanner-line"></div>
+        <!-- Scanline Effect -->
+        <div class="pointer-events-none fixed inset-0">
+            <div class="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,255,255,0.1)_50%)] bg-[length:100%_4px] animate-scanline"></div>
         </div>
     </div>
 </template>
 
-<style>
-/* Neural Network Animation */
-.neural-paths {
-    background: radial-gradient(circle at center, rgba(0,247,255,0.1) 0%, transparent 70%);
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
-    animation: rotate 60s linear infinite;
+<style scoped>
+@keyframes scanline {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
 }
 
-/* Scanner Line Effect */
-.scanner-line {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(to right,
-        transparent,
-        rgba(0,247,255,0.5),
-        rgba(255,0,255,0.5),
-        transparent
-    );
-    filter: blur(1px);
-    animation: scan 3s linear infinite;
+.bg-grid-neon {
+    background-image: 
+        linear-gradient(to right, rgba(0,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
 }
 
-/* Glitch Effect */
-.glitch-text {
-    position: relative;
-    display: inline-block;
+.animate-scanline {
+    animation: scanline 8s linear infinite;
 }
 
-.glitch-text::before,
-.glitch-text::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
+.glitch-1 {
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    transform: translate(-2px, 2px);
+    animation: glitch 1s infinite linear alternate-reverse;
 }
 
-.glitch-text::before {
-    left: 2px;
-    text-shadow: -2px 0 #ff00ff;
-    animation: glitch-1 2s infinite linear alternate-reverse;
+.glitch-2 {
+    clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
+    transform: translate(2px, -2px);
+    animation: glitch 2s infinite linear alternate-reverse;
 }
 
-.glitch-text::after {
-    left: -2px;
-    text-shadow: 2px 0 #00ffff;
-    animation: glitch-2 3s infinite linear alternate-reverse;
-}
-
-/* Animations */
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes scan {
-    from { transform: translateY(-100vh); }
-    to { transform: translateY(100vh); }
-}
-
-@keyframes glitch-1 {
-    0% { clip-path: inset(20% 0 30% 0); }
-    20% { clip-path: inset(65% 0 1% 0); }
-    40% { clip-path: inset(43% 0 1% 0); }
-    60% { clip-path: inset(25% 0 58% 0); }
-    80% { clip-path: inset(75% 0 5% 0); }
-    100% { clip-path: inset(10% 0 90% 0); }
-}
-
-@keyframes glitch-2 {
-    0% { clip-path: inset(25% 0 58% 0); }
-    20% { clip-path: inset(75% 0 5% 0); }
-    40% { clip-path: inset(10% 0 90% 0); }
-    60% { clip-path: inset(20% 0 30% 0); }
-    80% { clip-path: inset(65% 0 1% 0); }
-    100% { clip-path: inset(43% 0 1% 0); }
-}
-
-@keyframes text-shimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
-}
-
-@keyframes grid-float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-}
-
-/* Utility Animations */
-.animate-text-shimmer {
-    background-size: 200% auto;
-    animation: text-shimmer 3s linear infinite;
-}
-
-.animate-pulse-slow {
-    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.animate-grid-float {
-    animation: grid-float 8s ease infinite;
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-2px, 2px);
+    }
+    40% {
+        transform: translate(-2px, -2px);
+    }
+    60% {
+        transform: translate(2px, 2px);
+    }
+    80% {
+        transform: translate(2px, -2px);
+    }
+    100% {
+        transform: translate(0);
+    }
 }
 </style>

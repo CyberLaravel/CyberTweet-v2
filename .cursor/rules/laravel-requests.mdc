@@ -1,0 +1,17 @@
+---
+description: 
+globs: app/Http/Requests/**/*.php
+---
+
+### **Laravel Requests (Form Requests)**
+
+-   **Use Form Request classes** to handle validation, keeping controllers clean and focused on business logic.
+-   **Define validation rules in the `rules()` method**, ensuring all input data is properly validated.
+-   **Use the `authorize()` method** to restrict access when necessary, returning `true` for general access or implementing custom logic.
+-   **Leverage custom validation messages** by defining them in the `messages()` method for better user feedback.
+-   **Utilize `attributes()` method** to set custom attribute names, making error messages more readable.
+-   **Apply dependency injection** within request classes to access authenticated users or other services.
+-   **Validate complex data structures** using array validation, nested rules, and `Rule` classes when needed.
+-   **Ensure consistency across requests**, creating separate Form Request classes for different actions (e.g., `StoreUserRequest`, `UpdateUserRequest`).
+-   **Use `validated()` method** inside controllers to retrieve only the validated data, preventing mass assignment vulnerabilities.
+-   **Extend the base Form Request class** when defining shared validation logic across multiple request classes.

@@ -1,0 +1,44 @@
+---
+description: 
+globs: *.vue
+---
+
+-   **Use Vue.js 3 with Composition API** to structure components efficiently.
+    
+    -   Ensure all components follow Vue 3 best practices, using `setup()` and reactive state management.
+-   **Each Vue page must correspond to a Laravel controller** and be loaded via Inertia.js.
+    
+    -   Ensure the correct **controller method** returns the **Inertia render page** for the corresponding Vue component.
+-   **Do not make direct API calls inside Vue components**—fetch data through Inertia props from Laravel controllers.
+    
+    -   Data should be passed from Laravel controllers as **Inertia props** instead of making separate Axios requests.
+-   **Use Laravel API Resources to structure data** before passing it to Vue components.
+    
+    -   Ensure responses from Laravel controllers are formatted properly using API resources.
+-   **Use Pinia for state management when needed** instead of Vuex or global event buses.
+    
+    -   Manage global state efficiently using **Pinia**, following best practices.
+-   **Implement role-based access control using Spatie Laravel Permission v6**.
+    
+    -   Ensure Vue components check user roles and permissions before displaying actions or buttons.
+-   **Use Tailwind CSS for styling and avoid inline styles where possible**.
+    
+    -   Keep styles consistent using **Tailwind utility classes** and avoid unnecessary inline CSS.
+-   **Follow a modular component structure**—break down pages into smaller, reusable components.
+    
+    -   Large components should be split into smaller, reusable ones to improve maintainability.
+-   **Use Vue's built-in reactivity (`ref`, `computed`, `watch`) properly** to manage state.
+    
+    -   Avoid unnecessary reactivity when it is not needed to improve performance.
+-   **Handle form submissions via Laravel Form Requests** for validation instead of validating in Vue.
+    
+    -   All form validation should be handled by Laravel’s **Form Request classes**, not Vue’s front-end validation alone.
+-   **Use Inertia's form helper (`useForm`)** for handling form state and submissions.
+    
+    -   Leverage **Inertia's `useForm()`** instead of manually managing form state.
+-   **Ensure Vue components contain proper comments for maintainability**.
+    
+    -   All Vue components must be **well-commented** for easier understanding and maintenance.
+-   **Do not remove old code when updating Vue components**—keep a history of changes.
+    
+    -   Retain previous implementations to ensure backward compatibility and debugging.

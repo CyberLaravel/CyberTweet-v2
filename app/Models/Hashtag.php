@@ -20,6 +20,18 @@ class Hashtag extends Model
         return $this->belongsToMany(Tweet::class, 'hashtag_tweet');
     }
 
+    public function users()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            Tweet::class,
+            'id', // Foreign key on tweets table...
+            'id', // Foreign key on users table...
+            'id', // Local key on hashtags table...
+            'user_id' // Local key on tweets table...
+        );
+    }
+
     // Accessor for tweets count
     public function getTweetsCountAttribute()
     {
@@ -32,5 +44,11 @@ class Hashtag extends Model
         return DB::table('hashtag_tweet')
             ->where('hashtag_id', $this->id)
             ->count();
+    }
+
+    // Use the name as the route key
+    public function getRouteKeyName()
+    {
+        return 'name';
     }
 } 

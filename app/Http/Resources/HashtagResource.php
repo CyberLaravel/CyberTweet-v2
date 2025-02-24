@@ -12,7 +12,9 @@ class HashtagResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'tweets_count' => $this->tweets_count,
+            'tweets_count' => $this->tweets_count ?? $this->tweets()->count(),
+            'users_count' => $this->users_count ?? $this->users()->count(),
+            'likes_count' => $this->likes_count ?? $this->tweets()->withCount('likes')->get()->sum('likes_count'),
             'tweets' => TweetResource::collection($this->whenLoaded('tweets')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

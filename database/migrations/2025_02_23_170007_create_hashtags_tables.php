@@ -11,16 +11,16 @@ return new class extends Migration
         Schema::create('hashtags', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->integer('tweets_count')->default(0);
             $table->timestamps();
         });
 
         Schema::create('hashtag_tweet', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('hashtag_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('tweet_id')->constrained()->cascadeOnDelete();
-            $table->unique(['hashtag_id', 'tweet_id']);
+            $table->foreignId('hashtag_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tweet_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+
+            $table->unique(['hashtag_id', 'tweet_id']);
         });
     }
 

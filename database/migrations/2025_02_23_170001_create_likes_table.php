@@ -10,10 +10,12 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('tweet_id')->constrained()->cascadeOnDelete();
-            $table->unique(['user_id', 'tweet_id']);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tweet_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            
+            // Add unique constraint to prevent duplicate likes
+            $table->unique(['user_id', 'tweet_id']);
         });
     }
 

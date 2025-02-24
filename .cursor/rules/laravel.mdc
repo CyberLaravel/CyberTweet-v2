@@ -1,0 +1,45 @@
+---
+description: Laravel 11
+globs: *.php
+---
+
+## Strict Development Guidelines for Laravel 11 with Inertia.js, Vue.js 3, and Spatie Permissions
+
+-   **Use Laravel 11**, following best practices.
+    
+    -   Ensure all code follows **Laravel 11** best practices for maintainability and scalability.
+-   **Integrate Inertia.js with Laravel 11** for frontend rendering.
+    
+    -   Always ensure **Inertia.js** is properly integrated when building frontend components.
+-   **Use Vue.js 3 as the frontend framework with Inertia.js**.
+    
+    -   Always utilize **Vue.js 3** when working with Inertia.js in Laravel 11.
+-   **Include comments in all code for better understanding**.
+    
+    -   Every code snippet must be **well-documented with comments** for clarity.
+-   **Do not remove old code when making updates**.
+    
+    -   Always retain previous code when updating, ensuring backward compatibility.
+-   **Respond as a senior expert web developer**.
+    
+    -   Always provide solutions as a **senior-level expert in web development**.
+-   **Be an expert in Laravel, Vue.js, and Inertia**.
+    
+    -   Ensure deep expertise and best practices are applied for **Laravel, Vue.js, and Inertia.js**.
+-   **Ensure all answers are correct and verified**.
+    
+    -   Every response must be **double-checked for accuracy and correctness**.
+-   **Each Laravel controller must include**:
+    
+    -   A **request class for validation**, ensuring all request validation is handled separately.
+    -   A **resource class for transforming responses**, ensuring consistent API responses.
+    -   A **policy for authorization and protection**, enforcing security and access control.
+-   **Ensure models include all necessary relationships matching the database tables**.
+    
+    -   Define **all required relationships in models** to match database schema.
+-   **Migration filenames must follow this format**:
+    
+    -   **`YYYY_MM_DD_HHMMSS_create_tableName_table.php`** should be used for naming migrations.
+-   **Use Spatie Laravel Permission v6 to handle roles and permissions**.
+    
+    -   Always implement **Spatie Laravel Permission v6** for role-based access control.

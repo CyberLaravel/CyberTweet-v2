@@ -32,109 +32,157 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Two-factor Confirmation" />
+    <Head title="Neural Verification" />
 
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-black relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-black to-gray-900 opacity-90 pointer-events-none"></div>
-        <div class="absolute inset-0 bg-[length:50px_50px] opacity-10 bg-[linear-gradient(90deg,rgba(0,255,255,0.1)_1px,transparent_1px),linear-gradient(rgba(0,255,255,0.1)_1px,transparent_1px)] pointer-events-none"></div>
+    <div class="min-h-screen bg-[#001122] flex items-center justify-center p-6 relative overflow-hidden">
+        <!-- Cyberpunk Background Effects -->
+        <div class="absolute inset-0 bg-grid-neon opacity-5"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-[#00FFFF]/10 rounded-full blur-[128px] animate-pulse"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-[#FF00FF]/10 rounded-full blur-[128px] animate-pulse delay-1000"></div>
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-8 bg-black/80 border border-cyan-500/30 shadow-2xl shadow-cyan-500/20 relative z-10">
+        <!-- Two-Factor Form -->
+        <div class="w-full max-w-md relative">
+            <!-- Logo -->
             <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-pink-500 animate-pulse">
-                    CYBER<span class="text-pink-500">TWEET</span>
+                <h1 class="text-4xl font-light tracking-wider font-['Orbitron'] relative">
+                    <span class="relative inline-block">
+                        <span class="relative z-10">
+                            <span class="text-[#00FFFF]">Neural</span>
+                            <span class="text-[#FF00FF]">Verify</span>
+                        </span>
+                        <span class="absolute inset-0 text-[#00FFFF] opacity-50 glitch-1"></span>
+                        <span class="absolute inset-0 text-[#FF00FF] opacity-50 glitch-2"></span>
+                    </span>
                 </h1>
+                <p class="mt-2 text-[#00FFFF]/60 text-sm uppercase tracking-[0.2em]">Two-Factor Authentication</p>
+                <div class="h-[1px] w-24 mx-auto mt-4 bg-gradient-to-r from-transparent via-[#00FFFF]/50 to-transparent"></div>
             </div>
 
-            <div class="mb-4 text-sm text-cyan-500">
-                <template v-if="!recovery">
-                    Please confirm access to your account by entering the authentication code provided by your authenticator application.
-                </template>
-                <template v-else>
-                    Please confirm access to your account by entering one of your emergency recovery codes.
-                </template>
+            <!-- Neon Border Effect -->
+            <div class="absolute -inset-[2px] bg-gradient-to-r from-[#00FFFF] via-[#FF00FF] to-[#00FFFF] rounded-lg opacity-30 blur"></div>
+            
+            <div class="relative bg-[#001122]/95 backdrop-blur-xl border border-[#00FFFF]/20 rounded-lg p-8 shadow-[0_0_50px_rgba(0,255,255,0.1)]">
+                <!-- Corner Accents -->
+                <div class="absolute top-0 left-0 w-2 h-2 border-l-2 border-t-2 border-[#00FFFF]/50"></div>
+                <div class="absolute top-0 right-0 w-2 h-2 border-r-2 border-t-2 border-[#00FFFF]/50"></div>
+                <div class="absolute bottom-0 left-0 w-2 h-2 border-l-2 border-b-2 border-[#00FFFF]/50"></div>
+                <div class="absolute bottom-0 right-0 w-2 h-2 border-r-2 border-b-2 border-[#00FFFF]/50"></div>
+
+                <div class="mb-6 text-[#00FFFF]/80 text-sm leading-relaxed">
+                    <template v-if="!recovery">
+                        Please enter the authentication code from your neural authenticator to continue.
+                    </template>
+                    <template v-else>
+                        Please enter one of your emergency recovery codes to regain access.
+                    </template>
+                </div>
+
+                <form @submit.prevent="submit" class="space-y-6">
+                    <div v-if="!recovery">
+                        <label class="block text-[#00FFFF]/80 text-sm mb-2">AUTHENTICATION CODE</label>
+                        <div class="relative">
+                            <input
+                                ref="codeInput"
+                                v-model="form.code"
+                                type="text"
+                                inputmode="numeric"
+                                class="w-full bg-[#001122] border border-[#00FFFF]/20 rounded-lg px-4 py-3 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF]/60 focus:ring-1 focus:ring-[#00FFFF]/50 transition-all duration-300 tracking-[0.5em] text-center"
+                                placeholder="000000"
+                                maxlength="6"
+                                autofocus
+                                autocomplete="one-time-code"
+                            />
+                            <div class="absolute right-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#00FFFF]/50 via-[#FF00FF]/50 to-transparent"></div>
+                        </div>
+                        <p v-if="form.errors.code" class="mt-1 text-sm text-[#FF00FF]">{{ form.errors.code }}</p>
+                    </div>
+
+                    <div v-else>
+                        <label class="block text-[#00FFFF]/80 text-sm mb-2">RECOVERY CODE</label>
+                        <div class="relative">
+                            <input
+                                ref="recoveryCodeInput"
+                                v-model="form.recovery_code"
+                                type="text"
+                                class="w-full bg-[#001122] border border-[#00FFFF]/20 rounded-lg px-4 py-3 text-white placeholder-[#00FFFF]/30 focus:border-[#00FFFF]/60 focus:ring-1 focus:ring-[#00FFFF]/50 transition-all duration-300 font-mono"
+                                placeholder="XXXX-XXXX-XXXX-XXXX"
+                                autocomplete="one-time-code"
+                            />
+                            <div class="absolute right-0 top-0 h-full w-[2px] bg-gradient-to-b from-[#00FFFF]/50 via-[#FF00FF]/50 to-transparent"></div>
+                        </div>
+                        <p v-if="form.errors.recovery_code" class="mt-1 text-sm text-[#FF00FF]">{{ form.errors.recovery_code }}</p>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-2">
+                        <button
+                            type="button"
+                            class="text-[#00FFFF]/60 hover:text-[#00FFFF] text-sm transition-colors relative group"
+                            @click="toggleRecovery"
+                        >
+                            <template v-if="!recovery">
+                                <span>Use recovery code</span>
+                            </template>
+                            <template v-else>
+                                <span>Use authentication code</span>
+                            </template>
+                            <span class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#00FFFF] group-hover:w-full transition-all duration-300"></span>
+                        </button>
+
+                        <button
+                            type="submit"
+                            :disabled="form.processing"
+                            class="relative px-6 py-2 bg-gradient-to-r from-[#00FFFF] to-[#FF00FF] text-white rounded-lg overflow-hidden transition-all duration-300 hover:opacity-90 disabled:opacity-50 group"
+                        >
+                            <span class="relative z-10">VERIFY ACCESS</span>
+                            <div class="absolute inset-0 bg-white/20 translate-y-12 group-hover:translate-y-0 transition-transform duration-300"></div>
+                        </button>
+                    </div>
+                </form>
             </div>
+        </div>
 
-            <form @submit.prevent="submit" class="space-y-6">
-                <div v-if="!recovery">
-                    <label 
-                        htmlFor="code" 
-                        class="block text-sm font-bold text-cyan-500 mb-2"
-                    >
-                        AUTHENTICATION CODE
-                    </label>
-                    <input 
-                        id="code"
-                        ref="codeInput"
-                        type="text" 
-                        v-model="form.code"
-                        inputmode="numeric"
-                        autofocus
-                        autocomplete="one-time-code"
-                        class="w-full px-3 py-2 bg-black/50 border border-cyan-500/50 text-cyan-500 
-                               focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 
-                               placeholder-cyan-500/50 transition duration-300"
-                    />
-                    <p 
-                        v-if="form.errors.code" 
-                        class="text-red-500 text-xs mt-1"
-                    >
-                        {{ form.errors.code }}
-                    </p>
-                </div>
-
-                <div v-else>
-                    <label 
-                        htmlFor="recovery_code" 
-                        class="block text-sm font-bold text-cyan-500 mb-2"
-                    >
-                        RECOVERY CODE
-                    </label>
-                    <input 
-                        id="recovery_code"
-                        ref="recoveryCodeInput"
-                        type="text" 
-                        v-model="form.recovery_code"
-                        autocomplete="one-time-code"
-                        class="w-full px-3 py-2 bg-black/50 border border-cyan-500/50 text-cyan-500 
-                               focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 
-                               placeholder-cyan-500/50 transition duration-300"
-                    />
-                    <p 
-                        v-if="form.errors.recovery_code" 
-                        class="text-red-500 text-xs mt-1"
-                    >
-                        {{ form.errors.recovery_code }}
-                    </p>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button 
-                        type="button" 
-                        @click.prevent="toggleRecovery"
-                        class="text-sm text-cyan-500 hover:text-pink-500 transition duration-300"
-                    >
-                        <template v-if="!recovery">
-                            Use a recovery code
-                        </template>
-                        <template v-else>
-                            Use an authentication code
-                        </template>
-                    </button>
-
-                    <button 
-                        type="submit" 
-                        :disabled="form.processing"
-                        class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-pink-500 
-                               text-black font-bold uppercase 
-                               hover:from-cyan-600 hover:to-pink-600 
-                               focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 
-                               transition duration-300 
-                               disabled:opacity-50"
-                    >
-                        Log in
-                    </button>
-                </div>
-            </form>
+        <!-- Scanline Effect -->
+        <div class="pointer-events-none fixed inset-0">
+            <div class="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,255,255,0.1)_50%)] bg-[length:100%_4px] animate-scanline"></div>
         </div>
     </div>
 </template>
+
+<style scoped>
+@keyframes scanline {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+}
+
+.bg-grid-neon {
+    background-image: 
+        linear-gradient(to right, rgba(0,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.animate-scanline {
+    animation: scanline 8s linear infinite;
+}
+
+.glitch-1 {
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    transform: translate(-2px, 2px);
+    animation: glitch 1s infinite linear alternate-reverse;
+}
+
+.glitch-2 {
+    clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
+    transform: translate(2px, -2px);
+    animation: glitch 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+</style>

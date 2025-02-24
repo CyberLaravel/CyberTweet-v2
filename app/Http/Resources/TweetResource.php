@@ -7,20 +7,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TweetResource extends JsonResource
 {
-    public function toArray(Request $request): array
+    public function toArray($request)
     {
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'media_path' => $this->media_path,
-            'likes_count' => $this->likes_count,
-            'retweets_count' => $this->retweets_count,
-            'user' => new UserResource($this->whenLoaded('user')),
-            'likes' => UserResource::collection($this->whenLoaded('likes')),
-            'retweets' => UserResource::collection($this->whenLoaded('retweets')),
-            'hashtags' => HashtagResource::collection($this->whenLoaded('hashtags')),
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'user' => new UserResource($this->whenLoaded('user')),
+            'likes_count' => $this->likes()->count(),
+            'comments_count' => $this->comments()->count(),
+            'retweets_count' => $this->retweets()->count(),
+            'liked' => $request->user() ? $this->likes()->where('user_id', $request->user()->id)->exists() : false,
+            'is_retweeted' => $request->user() ? $this->retweets()->where('user_id', $request->user()->id)->exists() : false,
+            'hashtags' => $this->hashtags->pluck('name'),
         ];
     }
 } 

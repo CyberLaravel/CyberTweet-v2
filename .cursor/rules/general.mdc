@@ -1,0 +1,29 @@
+---
+description: 
+globs: *.php, *.vue
+---
+
+-   **Ensure all answers and code implementations are correct and verified**.
+    
+    -   Double-check logic, syntax, and dependencies to prevent errors and inconsistencies.
+-   **Do not hallucinate or assume non-existent functionality**.
+    
+    -   Provide only valid solutions that align with Laravel 11, Inertia.js, Vue.js 3, and Spatie Permission v6.
+-   **Never remove old code that is responsible for other functionality**.
+    
+    -   When updating or refactoring, **preserve previous implementations** that are still in use.
+    -   **Ensure existing functionality is not broken** when making modifications.
+    
+    -   Explain key logic, functions, and complex sections to improve readability and maintainability.
+-   **Organize code following best practices for structure and readability**.
+    
+    -   Maintain proper indentation, naming conventions, and modular structure for better clarity.
+-   **Use consistent formatting and adhere to coding standards**.
+    
+    -   Follow PSR-12 (PHP), ESLint (JavaScript), and Prettier (Vue) guidelines where applicable.
+-   **Ensure modular and reusable code**.
+    
+    -   Break large functionalities into smaller, well-defined components, methods, or services.
+-   **Keep controllers, models, and Vue components clean and structured**.
+    
+    -   Avoid bloated files by offloading logic into appropriate **services, repositories, or helpers**.

@@ -1,0 +1,13 @@
+---
+description: 
+globs: app/Http/Resources/**/*.php
+---
+
+### **Laravel Resources**
+
+-   Use **Laravel API Resources** to format and transform data before returning responses.
+-   Create a **dedicated resource class** for each model that requires structured output.
+-   Utilize **resource collections** when handling multiple records.
+-   Include **only necessary fields** to optimize performance and avoid exposing sensitive data.
+-   Use **`toArray()`** method in resources to define the structure of transformed data.
+-   Apply **conditional attributes** when necessary for flexibility.

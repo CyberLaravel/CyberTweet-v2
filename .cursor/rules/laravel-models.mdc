@@ -1,0 +1,14 @@
+---
+description: 
+globs: app/Models/**/*.php
+---
+
+### **Laravel Models**
+
+-   Define **all necessary relationships** in models to match the database schema.
+-   Use **Eloquent accessors and mutators** to format and modify attributes when needed.
+-   Implement **Eloquent scopes** for reusable query logic.
+-   Ensure models **use the correct database table names and primary keys** when customizing defaults.
+-   Use **casts** to automatically convert attribute types (e.g., JSON, dates, booleans).
+-   Apply **Spatie Laravel Permission v6** where needed to handle roles and permissions.
+-   Make sure each model includes **the appropriate relationships, fillable fields, and guarded attributes** for security.

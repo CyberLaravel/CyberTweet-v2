@@ -1,14 +1,15 @@
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
-import DialogModal from './DialogModal.vue';
-import InputError from './InputError.vue';
-import PrimaryButton from './PrimaryButton.vue';
-import SecondaryButton from './SecondaryButton.vue';
-import TextInput from './TextInput.vue';
+import { ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import DialogModal from '@/Components/DialogModal.vue';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
 
 const emit = defineEmits(['confirmed']);
 
-defineProps({
+const props = defineProps({
     title: {
         type: String,
         default: 'Confirm Password',
@@ -24,49 +25,29 @@ defineProps({
 });
 
 const confirmingPassword = ref(false);
-
-const form = reactive({
+const form = useForm({
     password: '',
-    error: '',
-    processing: false,
 });
-
 const passwordInput = ref(null);
 
 const startConfirmingPassword = () => {
-    axios.get(route('password.confirmation')).then(response => {
-        if (response.data.confirmed) {
-            emit('confirmed');
-        } else {
-            confirmingPassword.value = true;
+    confirmingPassword.value = true;
 
-            setTimeout(() => passwordInput.value.focus(), 250);
-        }
-    });
+    setTimeout(() => passwordInput.value?.focus(), 250);
 };
 
 const confirmPassword = () => {
-    form.processing = true;
-
-    axios.post(route('password.confirm'), {
-        password: form.password,
-    }).then(() => {
-        form.processing = false;
-
-        closeModal();
-        nextTick().then(() => emit('confirmed'));
-
-    }).catch(error => {
-        form.processing = false;
-        form.error = error.response.data.errors.password[0];
-        passwordInput.value.focus();
+    form.post(route('password.confirm'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            confirmingPassword.value = false;
+            form.reset();
+            emit('confirmed');
+        },
+        onError: () => {
+            passwordInput.value?.focus();
+        },
     });
-};
-
-const closeModal = () => {
-    confirmingPassword.value = false;
-    form.password = '';
-    form.error = '';
 };
 </script>
 
@@ -76,13 +57,15 @@ const closeModal = () => {
             <slot />
         </span>
 
-        <DialogModal :show="confirmingPassword" @close="closeModal">
+        <DialogModal :show="confirmingPassword" @close="confirmingPassword = false">
             <template #title>
-                {{ title }}
+                <span class="text-[#00FFFF] font-['Orbitron']">{{ title }}</span>
             </template>
 
             <template #content>
-                {{ content }}
+                <div class="text-[#00FFFF]/70">
+                    {{ content }}
+                </div>
 
                 <div class="mt-4">
                     <TextInput
@@ -95,12 +78,12 @@ const closeModal = () => {
                         @keyup.enter="confirmPassword"
                     />
 
-                    <InputError :message="form.error" class="mt-2" />
+                    <InputError :message="form.errors.password" class="mt-2" />
                 </div>
             </template>
 
             <template #footer>
-                <SecondaryButton @click="closeModal">
+                <SecondaryButton @click="confirmingPassword = false">
                     Cancel
                 </SecondaryButton>
 

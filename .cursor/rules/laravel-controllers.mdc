@@ -1,0 +1,17 @@
+---
+description: Laravel controllerse
+globs: app/Http/Controllers/**/*.php
+---
+
+### **Laravel Controllers**
+
+-   **Use Form Request classes** to handle validation, keeping controllers clean and focused on business logic.
+-   **Never validate requests inside controllers**—all validation rules should be defined in dedicated request classes.
+-   **Always return Inertia render pages**, not JSON responses, ensuring proper frontend handling via Inertia.js.
+-   **Utilize Laravel API Resources** to transform and format data before sending it to the frontend.
+-   **Apply the appropriate policy** to protect each controller, ensuring proper authorization based on roles and permissions.
+-   **Follow RESTful principles** when designing controller methods to maintain consistency and readability.
+-   **Keep controllers thin**—delegate complex business logic to services, repositories, or helper classes when necessary.
+-   **Use route model binding** for cleaner and more efficient query resolution in controller methods.
+-   **Ensure controllers interact efficiently with models**, utilizing eager loading to prevent N+1 query issues.
+-   **Group related routes into controllers** and apply middleware where necessary to enhance security and maintainability.

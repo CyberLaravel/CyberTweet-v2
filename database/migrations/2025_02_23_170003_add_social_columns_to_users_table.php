@@ -9,13 +9,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->unique()->after('email');
-            $table->text('bio')->nullable()->after('username');
-            $table->string('location')->nullable()->after('bio');
-            $table->string('website')->nullable()->after('location');
-            $table->date('birth_date')->nullable()->after('website');
-            $table->integer('followers_count')->default(0)->after('birth_date');
-            $table->integer('following_count')->default(0)->after('followers_count');
+            $table->text('bio')->nullable();
+            $table->string('location')->nullable();
+            $table->string('website')->nullable();
+            $table->string('twitter_username')->nullable();
+            $table->string('github_username')->nullable();
         });
     }
 
@@ -23,13 +21,11 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn([
-                'username', 
-                'bio', 
-                'location', 
-                'website', 
-                'birth_date', 
-                'followers_count', 
-                'following_count'
+                'bio',
+                'location',
+                'website',
+                'twitter_username',
+                'github_username'
             ]);
         });
     }

@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Tweet;
+use App\Models\Comment;
+use App\Models\Hashtag;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,29 +15,62 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([
-            RolesAndPermissionsSeeder::class,
-        ]);
+        // Call the roles and permissions seeder first
+        $this->call(RolesAndPermissionsSeeder::class);
 
-        // Create a test admin user
-        $admin = User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-        ]);
-        $admin->assignRole('admin');
+        // Create users
+        $users = User::factory(50)->create();
 
-        // Create a test moderator user
-        $moderator = User::factory()->create([
-            'name' => 'Moderator User',
-            'email' => 'moderator@example.com',
-        ]);
-        $moderator->assignRole('moderator');
+        // Create tweets with hashtags
+        $tweets = Tweet::factory(200)
+            ->sequence(fn ($sequence) => ['user_id' => $users->random()])
+            ->create();
 
-        // Create a test regular user
-        $user = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-        $user->assignRole('user');
+        // Create hashtags first
+        $hashtagNames = ['cyberpunk', 'tech', 'future', 'neon', 'hacker', 'ai'];
+        $hashtags = collect();
+        
+        foreach ($hashtagNames as $name) {
+            $hashtags->push(Hashtag::create(['name' => $name]));
+        }
+
+        // Now attach hashtags to tweets using the created hashtag models
+        $tweets->each(function ($tweet) use ($hashtags) {
+            $tweet->hashtags()->attach(
+                $hashtags->random(rand(1, 3))->pluck('id')->toArray()
+            );
+        });
+
+        // Create comments
+        Comment::factory(300)
+            ->sequence(fn ($sequence) => [
+                'user_id' => $users->random(),
+                'tweet_id' => $tweets->random(),
+            ])
+            ->create();
+
+        // Create follows relationships
+        $users->each(function ($user) use ($users) {
+            $followings = $users->except($user->id)->random(rand(0, 10));
+            $user->followings()->attach($followings);
+        });
+
+        // Create likes
+        $tweets->each(function ($tweet) use ($users) {
+            $likers = $users->random(rand(0, 15));
+            $tweet->likes()->attach($likers);
+        });
+
+        // Create retweets
+        $tweets->each(function ($tweet) use ($users) {
+            $retweeters = $users->random(rand(0, 5));
+            $tweet->retweets()->attach($retweeters);
+        });
+
+        // Create bookmarks
+        $users->each(function ($user) use ($tweets) {
+            $bookmarkedTweets = $tweets->random(rand(0, 10));
+            $user->bookmarks()->attach($bookmarkedTweets);
+        });
     }
 }

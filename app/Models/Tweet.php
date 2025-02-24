@@ -18,6 +18,8 @@ class Tweet extends Model
         'retweets_count' => 'integer',
     ];
 
+    protected $appends = ['is_retweeted'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -25,7 +27,8 @@ class Tweet extends Model
 
     public function likes(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'likes')->withTimestamps();
+        return $this->belongsToMany(User::class, 'likes')
+            ->withTimestamps();
     }
 
     public function retweets(): BelongsToMany
@@ -41,5 +44,18 @@ class Tweet extends Model
     public function hashtags()
     {
         return $this->belongsToMany(Hashtag::class, 'hashtag_tweet');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function getIsRetweetedAttribute()
+    {
+        if (!auth()->check()) {
+            return false;
+        }
+        return $this->retweets()->where('user_id', auth()->id())->exists();
     }
 } 

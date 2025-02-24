@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
 
@@ -32,9 +32,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
-        'username',
     ];
 
     /**
@@ -86,14 +86,14 @@ class User extends Authenticatable
     // Followers relationship
     public function followers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id')
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id')
             ->withTimestamps();
     }
 
     // Following relationship
-    public function following(): BelongsToMany
+    public function followings(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id')
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id')
             ->withTimestamps();
     }
 
@@ -127,5 +127,21 @@ class User extends Authenticatable
     public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
+    }
+
+    // Add username to route model binding
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
+    public function getFollowersCountAttribute()
+    {
+        return $this->followers()->count();
+    }
+
+    public function getFollowingCountAttribute()
+    {
+        return $this->followings()->count();
     }
 }
