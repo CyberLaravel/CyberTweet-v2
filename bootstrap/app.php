@@ -22,6 +22,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
+
+        $middleware->replace(
+            \Illuminate\Http\Middleware\TrustProxies::class,
+            \Monicahq\Cloudflare\Http\Middleware\TrustProxies::class
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
