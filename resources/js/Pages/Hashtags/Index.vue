@@ -45,7 +45,7 @@
               <Link
                 v-for="hashtag in trending"
                 :key="hashtag.id"
-                :href="route('hashtags.show', { hashtag: hashtag.name })"
+                :href="hashtag.name ? route('hashtags.show', { hashtag: hashtag.name }) : '#'"
                 class="group relative overflow-hidden rounded-lg p-4 bg-[#001122]/50 border border-[#00FFFF]/10
                   hover:border-[#FF00FF]/30 transition-all duration-300"
               >
@@ -70,7 +70,7 @@
           <Link
             v-for="hashtag in filteredHashtags"
             :key="hashtag.id"
-            :href="route('hashtags.show', { hashtag: hashtag.name })"
+            :href="hashtag.name ? route('hashtags.show', { hashtag: hashtag.name }) : '#'"
             class="relative group"
           >
             <!-- Neon Border Effect -->
@@ -137,15 +137,23 @@ import { Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
 const props = defineProps({
-  hashtags: Object,
-  trending: Array,
+  hashtags: {
+    type: Object,
+    required: true,
+    default: () => ({ data: [] })
+  },
+  trending: {
+    type: Array,
+    required: true,
+    default: () => []
+  }
 });
 
 const searchQuery = ref('');
 const filteredHashtags = computed(() => {
-  if (!searchQuery.value) return props.hashtags.data;
-  return props.hashtags.data.filter(hashtag => 
-    hashtag.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  if (!searchQuery.value) return props.hashtags.data || [];
+  return (props.hashtags.data || []).filter(hashtag => 
+    hashtag?.name?.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 </script>

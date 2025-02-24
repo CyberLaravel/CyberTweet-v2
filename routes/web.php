@@ -42,8 +42,8 @@ Route::middleware([
 
     // Hashtag Routes
     Route::get('/hashtags', [HashtagController::class, 'index'])->name('hashtags.index');
-    Route::get('/hashtags/{hashtag}', [HashtagController::class, 'show'])->name('hashtags.show');
     Route::get('/hashtags/trending', [HashtagController::class, 'trending'])->name('hashtags.trending');
+    Route::get('/hashtags/{hashtag}', [HashtagController::class, 'show'])->name('hashtags.show');
 
     // Notification Routes
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
@@ -60,8 +60,5 @@ Route::middleware([
     Route::get('/theme/edit', [UserThemeController::class, 'edit'])->name('user-theme.edit');
     Route::put('/theme', [UserThemeController::class, 'update'])->name('user-theme.update');
 });
-
-// Optional: Public routes that might not require authentication
-Route::get('/hashtags/trending', [HashtagController::class, 'trending'])->name('public.hashtags.trending');
 
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
